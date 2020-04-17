@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Store Web Application",
+  "name": "A web based application to manage sales and product stocks for your business",
   "icons": [
     {
       "src": "favicon.ico",
