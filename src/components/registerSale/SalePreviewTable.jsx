@@ -23,24 +23,25 @@ const SalePreviewTable = () => {
             <Table>
                 <TableHead>
                     <TableRow>
-                        <TableCell>
+                        <TableCell padding="checkbox">
                             <Checkbox />
                         </TableCell>
-                        <TableCell align="right">Cantidad</TableCell>
+                        <TableCell align="center">Cantidad</TableCell>
                         <TableCell>Producto</TableCell>
-                        <TableCell>Precio</TableCell>
+                        <TableCell align="right">Precio</TableCell>
                     </TableRow>
                 </TableHead>
+
                 <TableBody>
                     { rows.map( (product) => {
                             let description = (product.name + product.thread + product.width) + ( product.large ? (' * ' + product.large) : '' );
 
                             return (
                                 <TableRow key={ product.item }>
-                                    <TableCell><Checkbox checked={ true }/></TableCell>
-                                    <TableCell align="right">{ product.quantity }</TableCell>
-                                    <TableCell component="th" scope="2">{ description }</TableCell>
-                                    <TableCell component="th">{ product.price }</TableCell>
+                                    <TableCell padding="checkbox"><Checkbox checked={ true }/></TableCell>
+                                    <TableCell align="center">{ product.quantity }</TableCell>
+                                    <TableCell component="th" scope="row">{ description }</TableCell>
+                                    <TableCell align="right">{ product.price }</TableCell>
                                 </TableRow>
                             );
                         })
