@@ -8,8 +8,8 @@ import {
     Typography
 } from '@material-ui/core';
 import ExpandMore from '@material-ui/icons/ExpandMore';
-import SalePreviewTable from '../components/registerSale/SalePreviewTable';
-import SearchBar from '../components/registerSale/SearchBar'
+import SalePreviewCalculator from '../components/SalePreviewCalculator/SalePreviewCalculator';
+import SearchBar from '../components/SearchBar/SearchBar'
 
 const RegisterSale = () => (
     <Grid container
@@ -29,7 +29,7 @@ const RegisterSale = () => (
                 </ExpansionPanelSummary>
 
                 <ExpansionPanelDetails>
-                    <SalePreviewTable />
+                    <SalePreviewCalculator />
                 </ExpansionPanelDetails>
             </ExpansionPanel>
         </Grid>
