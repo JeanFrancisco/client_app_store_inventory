@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, TextField } from '@material-ui/core';
+import { Grid, TextField, InputAdornment } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
 import Search from '@material-ui/icons/Search';
 
@@ -12,32 +12,49 @@ const options = [
 ];
 
 const Searchbar = () => {
+
+    const customTextField = (params) => {
+
+        const {InputProps, ...other_params} = params;
+        const current_start_adorment = InputProps.startAdornment;
+
+        const adorment = (
+            <InputAdornment position="start" key="-1">
+                <Search />
+            </InputAdornment>
+        );
+
+        if(current_start_adorment !== undefined)
+            InputProps.startAdornment.unshift(adorment);
+        else 
+            InputProps.startAdornment = [ adorment ];
+
+        return (
+            <TextField
+                label="Ingrese las palabras clave para su búsqueda"
+                variant="standard"
+                placeholder="Ejemplo: Birlo, Tornillo, Grasera, Automotriz, Allen, etc."
+                InputProps={ InputProps }
+                {... other_params}
+            />
+        )
+
+    };
+
     return (
         <Grid container
             direction="row"
             justify="space-around"
             alignContent="stretch"
-            alignItems="flex-end">
-
+            alignItems="flex-end"
+        >
             <Grid item xs>
                 <Autocomplete
                     multiple
                     options={ options }
                     getOptionLabel={ option => option.name }
-                    renderInput={ params => (
-                        <TextField
-                            {...params}
-                            variant="standard"
-                            label="Buscar"
-                            placeholder="Ingrese un texto para buscar coincidencias"
-                        />
-                    )}
+                    renderInput={ customTextField }
                 />
-            </Grid>
-
-            <Grid item>
-
-            <Search/>
             </Grid>
         </Grid>
     );
