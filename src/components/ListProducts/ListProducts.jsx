@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import {
     Table,
     TableBody,
@@ -9,6 +9,7 @@ import {
     TextField,
 } from "@material-ui/core";
 import MultiSelectChecks from '../misc/MultiSelectChecks';
+import MultipleFeatureSelector from '../MultipleFeatureSelector/MultipleFeatureSelector';
 
 // TODO: Change to dynamic data rows
 const rows = [
@@ -20,6 +21,7 @@ const rows = [
 
 const ListProducts = () => {
     return (
+    <Fragment>
         <TableContainer>
             <Table>
                 <TableHead>
@@ -63,6 +65,9 @@ const ListProducts = () => {
                 </TableBody>
             </Table>
         </TableContainer>
+
+        <MultipleFeatureSelector />
+    </Fragment>
     );
 };
 
