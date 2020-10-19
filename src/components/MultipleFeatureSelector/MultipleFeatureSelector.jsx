@@ -23,7 +23,7 @@ const MultipleFeatureSelector = (props) => {
             fullWidth={ true }
             maxWidth="sm"
             aria-labelledby=""
-            open={ true }
+            open={ false }
             >
                 <DialogTitle>Features</DialogTitle>
 
