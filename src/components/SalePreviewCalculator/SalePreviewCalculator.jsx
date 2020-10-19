@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
     Table,
     TableBody,
@@ -9,9 +9,23 @@ import {
     TableRow,
     Checkbox
 } from "@material-ui/core";
+import { ADD_TO_PRE_SALE } from '../../redux/constants';
 
 const SalePreviewTable = () => {
     const products_shopping_list = useSelector( state => state.preSales.products_in_shopping_list );
+
+    const dispatch = useDispatch();
+
+    const redoPreSaleWith = ( service_or_product ) => {
+        dispatch({ type: ADD_TO_PRE_SALE, payload: service_or_product });
+    }
+
+    const handleStatusUpdateCheckbox = (e) => {
+        let identifier = e.target.name;
+
+        if(e.target.checked)
+            redoPreSaleWith(identifier);
+    }
 
     return (
         <TableContainer>
@@ -33,7 +47,7 @@ const SalePreviewTable = () => {
 
                             return (
                                 <TableRow key={ product.item }>
-                                    <TableCell padding="checkbox"><Checkbox checked={ true }/></TableCell>
+                                    <TableCell padding="checkbox"><Checkbox name={ product.item } onChange={ handleStatusUpdateCheckbox } /></TableCell>
                                     <TableCell align="center">{ product.quantity }</TableCell>
                                     <TableCell component="th" scope="row">{ description }</TableCell>
                                     <TableCell align="right">{ product.price }</TableCell>

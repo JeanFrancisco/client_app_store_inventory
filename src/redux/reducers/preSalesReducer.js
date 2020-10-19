@@ -1,3 +1,7 @@
+import {
+    ADD_TO_PRE_SALE,
+} from '../constants';
+
 const initialState = {
     products_in_shopping_list: [
         { item: '1', name: 'tornillo', thread: 'nc', width: '3/8', large: '2 + 1/2', price: 25.89, quantity: 4 },
@@ -12,6 +16,15 @@ const initialState = {
 
 export default function (state = initialState, action) {
     switch( action.type ) {
+        case ADD_TO_PRE_SALE:
+            let item = state.products_in_shopping_list.find( product => (product.item === action.payload ));
+            return {
+                ...state,
+                products_ready_to_pay: [
+                    ...state.products_ready_to_pay,
+                    item,
+                ],
+            }
         default:
             return state;
     }
