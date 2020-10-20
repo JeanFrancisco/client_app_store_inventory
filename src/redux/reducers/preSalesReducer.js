@@ -1,6 +1,8 @@
 import {
     ADD_TO_PRE_SALE,
     REMOVE_FROM_PRE_SALE,
+    ADD_TO_SHOPPING_LIST,
+    REMOVE_FROM_SHOPPING_LIST,
 } from '../constants';
 
 const initialState = {
@@ -17,7 +19,31 @@ const initialState = {
 
 export default function (state = initialState, action) {
     switch( action.type ) {
-        case ADD_TO_PRE_SALE: 
+        case ADD_TO_SHOPPING_LIST:
+            let new_shopping_list;
+            let index_found = state.products_in_shopping_list.findIndex( product => (product.item === action.payload.product.item ) );
+
+            if( index_found > 0 ) {
+                let item_found = { ...state.products_in_shopping_list[index_found], quantity: action.payload.qnty };
+
+                new_shopping_list = [
+                    ...state.products_in_shopping_list.slice(0, index_found),
+                    item_found,
+                    ...state.products_in_shopping_list.slice(index_found + 1)
+                ];
+            }
+            else {
+                new_shopping_list = [
+                    ...state.products_in_shopping_list,
+                    { ...action.payload.product, quantity: action.payload.quantity }
+                ];
+            }
+
+            return {
+                ...state,
+                products_in_shopping_list: new_shopping_list
+            }
+        case ADD_TO_PRE_SALE:
             return {
                 ...state,
                 products_ready_to_pay: [
@@ -29,6 +55,11 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 products_ready_to_pay: state.products_ready_to_pay.filter( product => (product.item !== action.payload) ),
+            }
+        case REMOVE_FROM_SHOPPING_LIST:
+            return {
+                ...state,
+                products_in_shopping_list: state.products_in_shopping_list.filter( product => (product.item !== action.payload) ),
             }
         default:
             return state;
