@@ -1,1 +1,2 @@
 export const ADD_TO_PRE_SALE = 'ADD_TO_PRE_SALE';
+export const REMOVE_FROM_PRE_SALE = 'REMOVE_FROM_PRE_SALE';

@@ -1,5 +1,6 @@
 import {
     ADD_TO_PRE_SALE,
+    REMOVE_FROM_PRE_SALE,
 } from '../constants';
 
 const initialState = {
@@ -16,14 +17,18 @@ const initialState = {
 
 export default function (state = initialState, action) {
     switch( action.type ) {
-        case ADD_TO_PRE_SALE:
-            let item = state.products_in_shopping_list.find( product => (product.item === action.payload ));
+        case ADD_TO_PRE_SALE: 
             return {
                 ...state,
                 products_ready_to_pay: [
                     ...state.products_ready_to_pay,
-                    item,
+                    state.products_in_shopping_list.find( product => (product.item === action.payload) ),
                 ],
+            }
+        case REMOVE_FROM_PRE_SALE:
+            return {
+                ...state,
+                products_ready_to_pay: state.products_ready_to_pay.filter( product => (product.item !== action.payload) ),
             }
         default:
             return state;

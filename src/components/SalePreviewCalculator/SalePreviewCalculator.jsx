@@ -9,7 +9,7 @@ import {
     TableRow,
     Checkbox
 } from "@material-ui/core";
-import { ADD_TO_PRE_SALE } from '../../redux/constants';
+import { ADD_TO_PRE_SALE, REMOVE_FROM_PRE_SALE } from '../../redux/constants';
 
 const SalePreviewTable = () => {
     const products_shopping_list = useSelector( state => state.preSales.products_in_shopping_list );
@@ -20,11 +20,17 @@ const SalePreviewTable = () => {
         dispatch({ type: ADD_TO_PRE_SALE, payload: service_or_product });
     }
 
+    const redoPreSaleWithout = ( service_or_product ) => {
+        dispatch({ type: REMOVE_FROM_PRE_SALE, payload: service_or_product });
+    }
+
     const handleStatusUpdateCheckbox = (e) => {
         let identifier = e.target.name;
 
         if(e.target.checked)
             redoPreSaleWith(identifier);
+        else
+            redoPreSaleWithout(identifier);
     }
 
     return (
