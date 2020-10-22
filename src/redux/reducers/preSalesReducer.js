@@ -22,10 +22,10 @@ export default function (state = initialState, action) {
         case ADD_TO_SHOPPING_LIST:
             let new_copy_shopping_list = [ ...state.products_in_shopping_list ];
  
-            let index_found = new_copy_shopping_list.findIndex( product => (product.item === action.payload.product.item ) );
+            let found_item = findInArray(action.payload.product, new_copy_shopping_list);
 
-            if( index_found > -1 )
-                new_copy_shopping_list[index_found].quantity = action.payload.quantity;
+            if( found_item !== undefined )
+                found_item.quantity = action.payload.quantity;
             else
                 new_copy_shopping_list.push({ ...action.payload.product, quantity: action.payload.quantity });
 
@@ -34,27 +34,25 @@ export default function (state = initialState, action) {
                 products_in_shopping_list: new_copy_shopping_list
             }
         case ADD_TO_PRE_SALE:
-            let copy_products_ready_in_sale = [ ...state.products_ready_to_pay ];
+            let new_products_ready_to_pay = [ ...state.products_ready_to_pay ];
 
-            let found_index = copy_products_ready_in_sale.findIndex( product => ( product.item === action.payload ) );
+            let found_element = findInArrayByItem(new_products_ready_to_pay, action.payload);
 
-            if( found_index > -1 ) {
-                let found_item = state.products_in_shopping_list.find( product => (
-                    product.item === copy_products_ready_in_sale[found_index].item
-                ));
+            if( found_element !== undefined ) {
+                let same_element_in_shopping_list = findInArrayByItem(state.products_in_shopping_list, found_element.item);
 
-                copy_products_ready_in_sale[found_index] = found_item;
+                found_element.quantity = same_element_in_shopping_list.quantity;
 
                 return {
                     ...state,
-                    products_ready_to_pay: copy_products_ready_in_sale
+                    products_ready_to_pay: new_products_ready_to_pay
                 };
             }
             return {
                 ...state,
                 products_ready_to_pay: [
                     ...state.products_ready_to_pay,
-                    state.products_in_shopping_list.find( product => (product.item === action.payload) ),
+                    findInArrayByItem(state.products_in_shopping_list, action.payload),
                 ],
             }
         case REMOVE_FROM_PRE_SALE:
@@ -70,4 +68,12 @@ export default function (state = initialState, action) {
         default:
             return state;
     }
+}
+
+function findInArray(prod, array) {
+    return array.find( element => ( element.item === prod.item ));
+}
+
+function findInArrayByItem(array, item) {
+    return array.find(element => ( element.item === item )); 
 }
