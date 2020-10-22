@@ -11,7 +11,12 @@ import {
 } from "@material-ui/core";
 import MultiSelectChecks from '../misc/MultiSelectChecks';
 import MultipleFeatureSelector from '../MultipleFeatureSelector/MultipleFeatureSelector';
-import { ADD_TO_SHOPPING_LIST, REMOVE_FROM_SHOPPING_LIST, ADD_TO_PRE_SALE, REMOVE_FROM_PRE_SALE } from '../../redux/constants';
+import {
+    addToPreSale,
+    removeFromPreSale,
+    redoShoppingListWith,
+    redoShoppingListWithout
+} from '../../redux/actions/preSalesActions';
 
 // TODO: Change to dynamic data rows
 const rows = [
@@ -24,26 +29,20 @@ const rows = [
 const ListProducts = () => {
     const dispatch = useDispatch();
 
-    const redoShoppingListWith = ( service_or_product, quantity ) => {
-        let product_obj = rows.find( row => row.item === service_or_product );
-
-        dispatch({ type: ADD_TO_SHOPPING_LIST, payload: { product: product_obj, qnty: Number(quantity) }});
-        dispatch({ type: ADD_TO_PRE_SALE, payload: service_or_product });
-    }
-
-    const redoShoppingListWithout = ( service_or_product ) => {
-        dispatch({ type: REMOVE_FROM_PRE_SALE, payload: service_or_product });
-        dispatch({ type: REMOVE_FROM_SHOPPING_LIST, payload: service_or_product });
-    }
-
     const handleStatusUpdateQntyField = (e) => {
-        let value = e.target.value;
+        let quanty = e.target.value;
         let identifier = e.target.name;
 
-        if(value == '' || value == 0) 
-            redoShoppingListWithout(identifier);
-        else if(!isNaN(value) && value > 0)
-            redoShoppingListWith(identifier, value);
+        if(quanty == '' || quanty == 0) {
+            dispatch( removeFromPreSale(identifier) );
+            dispatch( redoShoppingListWithout(identifier) );
+        }
+        else if(!isNaN(quanty) && quanty > 0) {
+            let product_obj = rows.find( row => row.item === identifier );
+
+            dispatch( redoShoppingListWith(product_obj, quanty) );
+            dispatch( addToPreSale(identifier) );
+        }
     }
 
     return (
