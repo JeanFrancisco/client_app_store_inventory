@@ -20,30 +20,36 @@ const initialState = {
 export default function (state = initialState, action) {
     switch( action.type ) {
         case ADD_TO_SHOPPING_LIST:
-            let new_shopping_list;
-            let index_found = state.products_in_shopping_list.findIndex( product => (product.item === action.payload.product.item ) );
+            let new_copy_shopping_list = [ ...state.products_in_shopping_list ];
+ 
+            let index_found = new_copy_shopping_list.findIndex( product => (product.item === action.payload.product.item ) );
 
-            if( index_found > 0 ) {
-                let item_found = { ...state.products_in_shopping_list[index_found], quantity: action.payload.qnty };
-
-                new_shopping_list = [
-                    ...state.products_in_shopping_list.slice(0, index_found),
-                    item_found,
-                    ...state.products_in_shopping_list.slice(index_found + 1)
-                ];
-            }
-            else {
-                new_shopping_list = [
-                    ...state.products_in_shopping_list,
-                    { ...action.payload.product, quantity: action.payload.quantity }
-                ];
-            }
+            if( index_found > -1 )
+                new_copy_shopping_list[index_found].quantity = action.payload.quantity;
+            else
+                new_copy_shopping_list.push({ ...action.payload.product, quantity: action.payload.quantity });
 
             return {
                 ...state,
-                products_in_shopping_list: new_shopping_list
+                products_in_shopping_list: new_copy_shopping_list
             }
         case ADD_TO_PRE_SALE:
+            let copy_products_ready_in_sale = [ ...state.products_ready_to_pay ];
+
+            let found_index = copy_products_ready_in_sale.findIndex( product => ( product.item === action.payload ) );
+
+            if( found_index > -1 ) {
+                let found_item = state.products_in_shopping_list.find( product => (
+                    product.item === copy_products_ready_in_sale[found_index].item
+                ));
+
+                copy_products_ready_in_sale[found_index] = found_item;
+
+                return {
+                    ...state,
+                    products_ready_to_pay: copy_products_ready_in_sale
+                };
+            }
             return {
                 ...state,
                 products_ready_to_pay: [
