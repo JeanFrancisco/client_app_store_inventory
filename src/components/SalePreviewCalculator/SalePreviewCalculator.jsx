@@ -13,6 +13,7 @@ import { addToPreSale, removeFromPreSale } from '../../redux/actions/preSalesAct
 
 const SalePreviewTable = () => {
     const products_shopping_list = useSelector( state => state.preSales.products_in_shopping_list );
+    const collection_ready_to_pay = useSelector( state => state.preSales.products_ready_to_pay );
 
     const dispatch = useDispatch();
 
@@ -40,12 +41,16 @@ const SalePreviewTable = () => {
                 </TableHead>
 
                 <TableBody>
-                    { Object.values(products_shopping_list).map( (product) => {
+                    {
+                        Object.keys(products_shopping_list).map( key => {
+                            let product = products_shopping_list[key];
                             let description = (product.name + product.thread + product.width) + ( product.large ? (' * ' + product.large) : '' );
 
                             return (
                                 <TableRow key={ `shopping_row_${product.id}` }>
-                                    <TableCell padding="checkbox"><Checkbox name={ `checkbx_${product.id}` } onChange={ handleStatusUpdateCheckbox } /></TableCell>
+                                    <TableCell padding="checkbox">
+                                        <Checkbox name={ `checkbx_${product.id}` } checked={ collection_ready_to_pay.includes(key) } onChange={ handleStatusUpdateCheckbox } />
+                                    </TableCell>
                                     <TableCell align="center">{ product.quantity }</TableCell>
                                     <TableCell component="th" scope="row">{ description }</TableCell>
                                     <TableCell align="right">{ product.price }</TableCell>

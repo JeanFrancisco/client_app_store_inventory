@@ -31,7 +31,13 @@ export default function (state = initialState, action) {
         case ADD_TO_SHOPPING_LIST:
             found_index = findIndexInCollectionByItemId(new_copy_shopping_list, action.payload.product.id);
 
-            new_copy_shopping_list[found_index].quantity = action.payload.quantity;
+            if( found_index === undefined ) {
+                let last_index = lastIndexOf(new_copy_shopping_list);
+
+                new_copy_shopping_list[last_index + 1] = { ...action.payload.product, quantity: action.payload.quantity };    
+            }
+            else
+                new_copy_shopping_list[found_index].quantity = action.payload.quantity;
 
             return {
                 ...state,
@@ -79,4 +85,9 @@ function findIndexInCollectionByItemId(indexed_collection, id_value) {
             return item_index;
         }
     }
+}
+
+function lastIndexOf(indexed_collection) {
+    let indexes = Object.keys(indexed_collection);
+    return ( indexes.length > 0 ? Number( indexes.pop() ) : 0 );
 }
