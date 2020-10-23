@@ -17,7 +17,7 @@ const SalePreviewTable = () => {
     const dispatch = useDispatch();
 
     const handleStatusUpdateCheckbox = (e) => {
-        let identifier = e.target.name;
+        let identifier = Number(e.target.name.substring(8));
 
         if(e.target.checked)
             dispatch( addToPreSale(identifier) );
@@ -40,12 +40,12 @@ const SalePreviewTable = () => {
                 </TableHead>
 
                 <TableBody>
-                    { products_shopping_list.map( (product) => {
+                    { Object.values(products_shopping_list).map( (product) => {
                             let description = (product.name + product.thread + product.width) + ( product.large ? (' * ' + product.large) : '' );
 
                             return (
-                                <TableRow key={ product.item }>
-                                    <TableCell padding="checkbox"><Checkbox name={ product.item } onChange={ handleStatusUpdateCheckbox } /></TableCell>
+                                <TableRow key={ `shopping_row_${product.id}` }>
+                                    <TableCell padding="checkbox"><Checkbox name={ `checkbx_${product.id}` } onChange={ handleStatusUpdateCheckbox } /></TableCell>
                                     <TableCell align="center">{ product.quantity }</TableCell>
                                     <TableCell component="th" scope="row">{ description }</TableCell>
                                     <TableCell align="right">{ product.price }</TableCell>

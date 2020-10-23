@@ -14,7 +14,7 @@ export function removeFromPreSale( product_or_service ) {
 }
 
 export const redoShoppingListWith = ( service_or_product, quantity ) => {
-    return { type: ADD_TO_SHOPPING_LIST, payload: { product: service_or_product, quantity: Number(quantity) }};
+    return { type: ADD_TO_SHOPPING_LIST, payload: { product: service_or_product, quantity }};
 }
 
 export const redoShoppingListWithout = ( service_or_product ) => {
