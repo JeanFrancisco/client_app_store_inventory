@@ -48,9 +48,14 @@ const SalePreviewTable = () => {
 
                             return (
                                 <TableRow key={ `shopping_row_${product.id}` }>
+
                                     <TableCell padding="checkbox">
-                                        <Checkbox name={ `checkbx_${product.id}` } checked={ collection_ready_to_pay.includes(key) } onChange={ handleStatusUpdateCheckbox } />
+                                        <Checkbox name={ `checkbx_${product.id}` }
+                                            checked={ collection_ready_to_pay.includes(key) }
+                                            onChange={ handleStatusUpdateCheckbox }
+                                            />
                                     </TableCell>
+
                                     <TableCell align="center">{ product.quantity }</TableCell>
                                     <TableCell component="th" scope="row">{ description }</TableCell>
                                     <TableCell align="right">{ product.price }</TableCell>

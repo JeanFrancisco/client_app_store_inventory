@@ -33,7 +33,7 @@ const ListProducts = () => {
         let quanty = e.target.value;
         let identifier = Number(e.target.name.substring(11));
 
-        if(isNaN(quanty)) {
+        if( isNaN(quanty) ) {
             // TODO: Show an error message or, for example set the background color to red.
             return ;
         }
@@ -74,14 +74,19 @@ const ListProducts = () => {
                 </TableHead>
 
                 <TableBody>
-                    { rows.map( (product) => {
+                    { 
+                        rows.map( (product) => {
 
                             return (
                                 <TableRow key={ `prod_${product.id}` }>
                                     <TableCell align="center" padding="none">{ product.stock }</TableCell>
                                     <TableCell align="center" padding="checkbox">
-                                        <TextField type="numeric" name={ `qnty_field_${product.id}` } color="secondary" onBlur={ handleStatusUpdateQntyField } />
+                                        <TextField
+                                            type="numeric"
+                                            name={ `qnty_field_${product.id}` }
+                                            color="secondary" onBlur={ handleStatusUpdateQntyField } />
                                     </TableCell>
+
                                     <TableCell align="center" width="100">{ product.name }</TableCell>
                                     <TableCell>{ product.features.join(' ') }</TableCell>
                                     <TableCell>{ product.thread }</TableCell>

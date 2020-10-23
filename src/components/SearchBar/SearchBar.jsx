@@ -15,7 +15,7 @@ const Searchbar = () => {
 
     const customTextField = (params) => {
 
-        const {InputProps, ...other_params} = params;
+        const { InputProps, ...other_params } = params;
         const current_start_adorment = InputProps.startAdornment;
 
         const adorment = (
@@ -31,7 +31,7 @@ const Searchbar = () => {
 
         return (
             <TextField
-                label="Ingrese las palabras clave para su búsqueda"
+                label="Escriba aquí las palabras clave para su búsqueda"
                 variant="standard"
                 placeholder="Ejemplo: Birlo, Tornillo, Grasera, Automotriz, Allen, etc."
                 InputProps={ InputProps }
