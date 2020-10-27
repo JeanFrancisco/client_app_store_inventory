@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
     Checkbox,
     FormControl,
@@ -12,23 +13,20 @@ import {
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 
-// TODO: Change to dynamic options data
-const options = ['Tornillo', 'Rondanas', 'Tuerca', 'Opresor'];
+const MultiSelectChecks = (props) => {
 
-const MultiSelectChecks = (params) => {
-
-    const handleChange = () => ( null );
+    const { value, options, heading: title, disabled_options, handlerChangeEvent: handleChange } = props;
 
     return (
         <FormControl>
 
             <InputLabel>
-                { params.heading }
+                { title }
             </InputLabel>
 
             <Select
                 multiple
-                value={ ['Tornillo', 'Rondanas', 'Tuerca', 'Opresor'] }
+                value={ value }
                 onChange={ handleChange }
                 input={ <Input /> }
                 renderValue={ (selected) => selected.join(', ') }
@@ -46,8 +44,8 @@ const MultiSelectChecks = (params) => {
                 >
                 {
                     options.map( name => (
-                        <MenuItem key={ name } value={ name }>
-                            <Checkbox />
+                        <MenuItem key={ name } value={ name } disabled={ disabled_options.indexOf(name) > -1 }>
+                            <Checkbox checked={ value.indexOf(name) > -1 }/>
                             <ListItemText primary={ name }/>
                         </MenuItem>
                     ))
@@ -56,6 +54,14 @@ const MultiSelectChecks = (params) => {
 
         </FormControl>
     );
+}
+
+MultiSelectChecks.propTypes = {
+    value: PropTypes.array,
+    options: PropTypes.array.isRequired,
+    heading: PropTypes.string,
+    disabled_options: PropTypes.array,
+    handlerChangeEvent: PropTypes.func,
 }
 
 export default MultiSelectChecks;

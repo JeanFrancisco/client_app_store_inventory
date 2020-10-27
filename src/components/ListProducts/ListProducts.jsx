@@ -17,6 +17,7 @@ import {
     redoShoppingListWith,
     redoShoppingListWithout
 } from '../../redux/actions/preSalesActions';
+import ThreadsPopup from '../misc/ThreadsPopup';
 
 // TODO: Change to dynamic data rows
 const rows = [
@@ -61,10 +62,12 @@ const ListProducts = () => {
                         <TableCell align="center" padding="none">Existencia</TableCell>
                         <TableCell align="center" padding="checkbox">Cantidad</TableCell>
                         <TableCell align="center" width="100">
-                            <MultiSelectChecks heading="Producto" />
+                            <MultiSelectChecks options={[]} heading="Producto" />
                         </TableCell>
                         <TableCell>Caracteristicas</TableCell>
-                        <TableCell>Rosca</TableCell>
+                        <TableCell>
+                            <ThreadsPopup />
+                        </TableCell>
                         <TableCell>Medida</TableCell>
                         <TableCell>Largo</TableCell>
                         <TableCell padding="none">Ubicacion</TableCell>
