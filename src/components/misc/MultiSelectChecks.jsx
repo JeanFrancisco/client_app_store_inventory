@@ -64,4 +64,9 @@ MultiSelectChecks.propTypes = {
     handlerChangeEvent: PropTypes.func,
 }
 
+MultiSelectChecks.defaultProps = {
+    disabled_options: [],
+    heading: 'Sin Titulo'
+}
+
 export default MultiSelectChecks;

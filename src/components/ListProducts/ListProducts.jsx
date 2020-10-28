@@ -9,7 +9,6 @@ import {
     TableRow,
     TextField,
 } from "@material-ui/core";
-import MultiSelectChecks from '../misc/MultiSelectChecks';
 import MultipleFeatureSelector from '../MultipleFeatureSelector/MultipleFeatureSelector';
 import {
     addToPreSale,
@@ -17,6 +16,7 @@ import {
     redoShoppingListWith,
     redoShoppingListWithout
 } from '../../redux/actions/preSalesActions';
+import KindProductsPopup from '../misc/KindProductsPopup';
 import ThreadsPopup from '../misc/ThreadsPopup';
 
 // TODO: Change to dynamic data rows
@@ -62,7 +62,7 @@ const ListProducts = () => {
                         <TableCell align="center" padding="none">Existencia</TableCell>
                         <TableCell align="center" padding="checkbox">Cantidad</TableCell>
                         <TableCell align="center" width="100">
-                            <MultiSelectChecks options={[]} heading="Producto" />
+                            <KindProductsPopup />
                         </TableCell>
                         <TableCell>Caracteristicas</TableCell>
                         <TableCell>
