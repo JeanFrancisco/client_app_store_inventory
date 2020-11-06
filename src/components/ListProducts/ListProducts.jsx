@@ -8,16 +8,19 @@ import {
     TableHead,
     TableRow,
     TextField,
+    Button,
 } from "@material-ui/core";
+import FilterList from '@material-ui/icons/FilterList';
 import MultipleFeatureSelector from '../MultipleFeatureSelector/MultipleFeatureSelector';
+import KindProductsPopup from '../misc/KindProductsPopup';
+import ThreadsPopup from '../misc/ThreadsPopup';
 import {
     addToPreSale,
     removeFromPreSale,
     redoShoppingListWith,
     redoShoppingListWithout
 } from '../../redux/actions/preSalesActions';
-import KindProductsPopup from '../misc/KindProductsPopup';
-import ThreadsPopup from '../misc/ThreadsPopup';
+import { openFeaturesFilterDialog } from '../../redux/actions/listProducts';
 
 // TODO: Change to dynamic data rows
 const rows = [
@@ -53,6 +56,10 @@ const ListProducts = () => {
         }
     }
 
+    const handleFeatureFilterDialogLauncher = (e) => {
+        dispatch( openFeaturesFilterDialog() );
+    }
+
     return (
     <Fragment>
         <TableContainer>
@@ -64,7 +71,14 @@ const ListProducts = () => {
                         <TableCell align="center" width="100">
                             <KindProductsPopup />
                         </TableCell>
-                        <TableCell>Caracteristicas</TableCell>
+                        <TableCell>
+                            <Button
+                                onClick={ handleFeatureFilterDialogLauncher }
+                                endIcon={ <FilterList /> }
+                                >
+                                Caracteristicas
+                            </Button>
+                        </TableCell>
                         <TableCell>
                             <ThreadsPopup />
                         </TableCell>
