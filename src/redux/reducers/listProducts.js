@@ -10,6 +10,7 @@ const initialState = {
     disabled_options_thread_filter: ['1.0', '1.5'],
     selected_values_kind_products_filter: ['Abrazadera', 'Tornillo'],
     is_open_features_filter_dialog: false,
+    active_collection_features: ['Allen', 'Grado 5'],
 }
 
 export default function (state = initialState, action) {
