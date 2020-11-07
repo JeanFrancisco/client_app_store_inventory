@@ -10,7 +10,7 @@ import {
     TextField,
     Button,
 } from "@material-ui/core";
-import FilterList from '@material-ui/icons/FilterList';
+import ArrowDropDown from '@material-ui/icons/ArrowDropDown';
 import MultipleFeatureSelector from '../MultipleFeatureSelector/MultipleFeatureSelector';
 import KindProductsPopup from '../misc/KindProductsPopup';
 import ThreadsPopup from '../misc/ThreadsPopup';
@@ -74,7 +74,7 @@ const ListProducts = () => {
                         <TableCell>
                             <Button
                                 onClick={ handleFeatureFilterDialogLauncher }
-                                endIcon={ <FilterList /> }
+                                endIcon={ <ArrowDropDown /> }
                                 >
                                 Caracteristicas
                             </Button>
