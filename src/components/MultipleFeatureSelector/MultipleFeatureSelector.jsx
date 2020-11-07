@@ -9,7 +9,7 @@ import {
     Grid,
     makeStyles,
 } from '@material-ui/core';
-import FeatureOptionsGroup from '../FeatureOptionsGroup/FeatureOptionsGroup';
+import CheckboxesOptionsGroup from '../misc/CheckboxesOptionsGroup';
 import {
     closeFeaturesFilterDialog,
     choseOptionFeaturesFilter,
@@ -56,8 +56,8 @@ const MultipleFeatureSelector = (props) => {
                 <DialogContent dividers className={ classes.root }>
                     <Grid container spacing={ 3 }>
                         <Grid item xs={ 10 } sm={ 6 }>
-                            <FeatureOptionsGroup
-                                active_features_selected={ active_collection_features }
+                            <CheckboxesOptionsGroup
+                                active_selected_checkboxes={ active_collection_features }
                                 collection_values={ orderTwoVerticalColumns(features_groups.heads) }
                                 action_uncheck_event={ deselectOptionFeaturesFilter }
                                 action_check_event={ choseOptionFeaturesFilter }
@@ -66,8 +66,8 @@ const MultipleFeatureSelector = (props) => {
                         </Grid>
 
                         <Grid item xs={ 10 } sm={ 6 }>
-                            <FeatureOptionsGroup
-                                active_features_selected={ active_collection_features }
+                            <CheckboxesOptionsGroup
+                                active_selected_checkboxes={ active_collection_features }
                                 collection_values={ orderTwoVerticalColumns(features_groups.others) }
                                 action_uncheck_event={ deselectOptionFeaturesFilter }
                                 action_check_event={ choseOptionFeaturesFilter }
@@ -76,8 +76,8 @@ const MultipleFeatureSelector = (props) => {
                         </Grid>
 
                         <Grid item xs={ 10 } sm={ 6 }>
-                            <FeatureOptionsGroup
-                                active_features_selected={ active_collection_features }
+                            <CheckboxesOptionsGroup
+                                active_selected_checkboxes={ active_collection_features }
                                 collection_values={ orderTwoVerticalColumns(features_groups.materials) }
                                 action_uncheck_event={ deselectOptionFeaturesFilter }
                                 action_check_event={ choseOptionFeaturesFilter }
@@ -86,8 +86,8 @@ const MultipleFeatureSelector = (props) => {
                         </Grid>
 
                         <Grid item xs={ 10 } sm={ 6 }>
-                            <FeatureOptionsGroup
-                                active_features_selected={ active_collection_features }
+                            <CheckboxesOptionsGroup
+                                active_selected_checkboxes={ active_collection_features }
                                 collection_values={ orderTwoVerticalColumns(features_groups.uses) }
                                 action_uncheck_event={ deselectOptionFeaturesFilter }
                                 action_check_event={ choseOptionFeaturesFilter }

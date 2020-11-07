@@ -5,6 +5,10 @@ import {
     FEATURE_FILTER_DIALOG_CLOSED,
     FEATURE_FILTER_OPTION_CHOSEN,
     FEATURE_FILTER_OPTION_DESELECTED,
+    MEASUREMENT_FILTER_DIALOG_OPENED,
+    MEASUREMENT_FILTER_DIALOG_CLOSED,
+    MEASUREMENT_FILTER_OPTION_CHOSEN,
+    MEASUREMENT_FILTER_OPTION_DESELECTED,
 } from '../constants/listProducts';
 
 export function updateThreadFilterState( option_chosen ) {
@@ -28,5 +32,21 @@ export function choseOptionFeaturesFilter(option_chosen) {
 }
 
 export function deselectOptionFeaturesFilter(option_deselected) {
-    return { type:FEATURE_FILTER_OPTION_DESELECTED, payload: option_deselected }
+    return { type: FEATURE_FILTER_OPTION_DESELECTED, payload: option_deselected }
+}
+
+export function openMeasurementsFilterDialog() {
+    return { type: MEASUREMENT_FILTER_DIALOG_OPENED }
+}
+
+export function closeMeasurementsFilterDialog() {
+    return { type: MEASUREMENT_FILTER_DIALOG_CLOSED }
+}
+
+export function choseOptionMeasurementsFilter(option_chosen) {
+    return { type: MEASUREMENT_FILTER_OPTION_CHOSEN, payload: option_chosen }
+}
+
+export function deselectOptionMeasurementsFilter(option_deselected) {
+    return { type: MEASUREMENT_FILTER_OPTION_DESELECTED, payload: option_deselected }
 }

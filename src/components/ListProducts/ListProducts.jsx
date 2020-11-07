@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
     Table,
     TableBody,
@@ -12,6 +12,7 @@ import {
 } from "@material-ui/core";
 import ArrowDropDown from '@material-ui/icons/ArrowDropDown';
 import MultipleFeatureSelector from '../MultipleFeatureSelector/MultipleFeatureSelector';
+import MultiMeasurementsDialog from '../MultiMeasurementsDialog/MultiMeasurementsDialog';
 import KindProductsPopup from '../misc/KindProductsPopup';
 import ThreadsPopup from '../misc/ThreadsPopup';
 import {
@@ -20,7 +21,11 @@ import {
     redoShoppingListWith,
     redoShoppingListWithout
 } from '../../redux/actions/preSalesActions';
-import { openFeaturesFilterDialog } from '../../redux/actions/listProducts';
+import {
+    openFeaturesFilterDialog,
+    openMeasurementsFilterDialog,
+    closeMeasurementsFilterDialog,
+} from '../../redux/actions/listProducts';
 
 // TODO: Change to dynamic data rows
 const rows = [
@@ -31,6 +36,8 @@ const rows = [
 ];
 
 const ListProducts = () => {
+    const is_open_measurements_dialog = useSelector( state => state.listProducts.is_open_measurement_dialog );
+
     const dispatch = useDispatch();
 
     const handleStatusUpdateQntyField = (e) => {
@@ -60,6 +67,10 @@ const ListProducts = () => {
         dispatch( openFeaturesFilterDialog() );
     }
 
+    const handleLauchMeasurementsFilterDialog = (e) => {
+        dispatch( openMeasurementsFilterDialog() );
+    }
+
     return (
     <Fragment>
         <TableContainer>
@@ -82,7 +93,14 @@ const ListProducts = () => {
                         <TableCell>
                             <ThreadsPopup />
                         </TableCell>
-                        <TableCell>Medida</TableCell>
+                        <TableCell>
+                            <Button
+                                onClick={ handleLauchMeasurementsFilterDialog }
+                                endIcon={ <ArrowDropDown /> }
+                                >
+                                Medida
+                            </Button>
+                        </TableCell>
                         <TableCell>Largo</TableCell>
                         <TableCell padding="none">Ubicacion</TableCell>
                         <TableCell>(Clave + Usos)</TableCell>
@@ -121,6 +139,10 @@ const ListProducts = () => {
         </TableContainer>
 
         <MultipleFeatureSelector />
+        <MultiMeasurementsDialog
+            is_open={ is_open_measurements_dialog }
+            action_on_close={ closeMeasurementsFilterDialog }
+            />
     </Fragment>
     );
 };
