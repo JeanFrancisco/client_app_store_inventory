@@ -6,10 +6,12 @@ import {
     DialogActions,
     DialogContent,
     DialogTitle,
+    Grid,
     makeStyles,
 } from '@material-ui/core';
 import FeatureOptionsGroup from '../FeatureOptionsGroup/FeatureOptionsGroup';
 import { closeFeaturesFilterDialog } from '../../redux/actions/listProducts';
+import { orderTwoVerticalColumns } from '../../utils/arrays.js';
 
 const useStyles = makeStyles( theme => ({
     root: {
@@ -17,11 +19,12 @@ const useStyles = makeStyles( theme => ({
     }
 }));
 
-const feature_group = [
-    'Allen', 'Automotriz', 'C/Coche', 'C/Muelle', 'C/Plana', 'Galvanizado',
-    'Grado 5', 'Gripo', 'H180', 'H200', 'Hexagonal', 'Ins. Nylon',
-    'Liviana', 'Seguridad', 'Set'
-];
+const features_groups = {
+    heads: ['Allen', 'Castillo', 'C/Coche', 'C/Plana', 'Gota', 'Hexagonal', 'Set'],
+    materials: ['Galvanizado', 'Grado 5', 'Liviana'],
+    others: ['Gripo', 'H200', 'H180', 'Ins. Nylon', 'Presion', 'Plana', 'Estructural'],
+    uses: ['Arado', 'Automotriz', 'Centro Muelle', 'Flecha', 'Golpe', 'Seguridad' ],
+}
 
 const MultipleFeatureSelector = (props) => {
     const classes = useStyles();
@@ -39,7 +42,7 @@ const MultipleFeatureSelector = (props) => {
     return (
         <Dialog
             fullWidth={ true }
-            maxWidth="sm"
+            maxWidth="md"
             aria-labelledby=""
             open={ is_open }
             onClose={ handleCloseDialog }
@@ -47,11 +50,39 @@ const MultipleFeatureSelector = (props) => {
                 <DialogTitle>Seleccione las Caracteristicas</DialogTitle>
 
                 <DialogContent dividers className={ classes.root }>
-                    <FeatureOptionsGroup
-                        active_features_selected={ active_collection_features }
-                        collection_values={ feature_group }
-                        title="Caracteristicas"
-                        />
+                    <Grid container spacing={ 3 }>
+                        <Grid item xs={ 10 } sm={ 6 }>
+                            <FeatureOptionsGroup
+                                active_features_selected={ active_collection_features }
+                                collection_values={ orderTwoVerticalColumns(features_groups.heads) }
+                                title="Cabeza | Tipo de llave"
+                                />
+                        </Grid>
+
+                        <Grid item xs={ 10 } sm={ 6 }>
+                            <FeatureOptionsGroup
+                                active_features_selected={ active_collection_features }
+                                collection_values={ orderTwoVerticalColumns(features_groups.others) }
+                                title="Categoria"
+                                />
+                        </Grid>
+
+                        <Grid item xs={ 10 } sm={ 6 }>
+                            <FeatureOptionsGroup
+                                active_features_selected={ active_collection_features }
+                                collection_values={ orderTwoVerticalColumns(features_groups.materials) }
+                                title="Acabado de material"
+                                />
+                        </Grid>
+
+                        <Grid item xs={ 10 } sm={ 6 }>
+                            <FeatureOptionsGroup
+                                active_features_selected={ active_collection_features }
+                                collection_values={ orderTwoVerticalColumns(features_groups.uses) }
+                                title="Usos"
+                                />
+                        </Grid>
+                    </Grid>
                 </DialogContent>
 
                 <DialogActions>

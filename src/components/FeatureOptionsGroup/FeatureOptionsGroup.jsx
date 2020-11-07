@@ -7,6 +7,7 @@ import {
     FormGroup,
     FormHelperText,
     FormLabel,
+    Grid,
 } from '@material-ui/core';
 
 const FeatureOptionsGroup = (props) => {
@@ -18,15 +19,19 @@ const FeatureOptionsGroup = (props) => {
             <FormLabel component="legend">{ title }</FormLabel>
 
             <FormGroup>
+                <Grid container>
                 {
                     collection_values.map( value => (
-                        <FormControlLabel
-                            key={ value }
-                            control={ <Checkbox checked={ ( active_features_selected.indexOf(value) > -1 ) } name={ value } /> }
-                            label={ value }
-                        />
+                        <Grid item xs={ 6 }>
+                            <FormControlLabel
+                                key={ value }
+                                control={ <Checkbox checked={ ( active_features_selected.indexOf(value) > -1 ) } name={ value } /> }
+                                label={ value }
+                            />
+                        </Grid>
                     ))
                 }
+                </Grid>
             </FormGroup>
 
             <FormHelperText>{ helper_text }</FormHelperText>
