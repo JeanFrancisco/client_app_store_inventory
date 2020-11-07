@@ -60,8 +60,8 @@ const FeatureOptionsGroup = (props) => {
 
 FeatureOptionsGroup.propTypes = {
     active_features_selected: PropTypes.array,
-    action_uncheck_event: PropTypes.object.isRequired,
-    action_check_event: PropTypes.object.isRequired,
+    action_uncheck_event: PropTypes.func.isRequired,
+    action_check_event: PropTypes.func.isRequired,
     collection_values: PropTypes.array.isRequired,
     helper_text: PropTypes.string,
     title: PropTypes.string
