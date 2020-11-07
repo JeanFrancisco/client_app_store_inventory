@@ -3,6 +3,8 @@ import {
     KIND_OF_PRODUCT_FILTER_OPTION_CHOSEN,
     FEATURE_FILTER_DIALOG_OPENED,
     FEATURE_FILTER_DIALOG_CLOSED,
+    FEATURE_FILTER_OPTION_CHOSEN,
+    FEATURE_FILTER_OPTION_DESELECTED,
 } from '../constants/listProducts';
 
 export function updateThreadFilterState( option_chosen ) {
@@ -19,4 +21,12 @@ export function openFeaturesFilterDialog() {
 
 export function closeFeaturesFilterDialog() {
     return { type: FEATURE_FILTER_DIALOG_CLOSED }
+}
+
+export function choseOptionFeaturesFilter(option_chosen) {
+    return { type: FEATURE_FILTER_OPTION_CHOSEN, payload: option_chosen }
+}
+
+export function deselectOptionFeaturesFilter(option_deselected) {
+    return { type:FEATURE_FILTER_OPTION_DESELECTED, payload: option_deselected }
 }

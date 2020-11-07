@@ -10,7 +10,11 @@ import {
     makeStyles,
 } from '@material-ui/core';
 import FeatureOptionsGroup from '../FeatureOptionsGroup/FeatureOptionsGroup';
-import { closeFeaturesFilterDialog } from '../../redux/actions/listProducts';
+import {
+    closeFeaturesFilterDialog,
+    choseOptionFeaturesFilter,
+    deselectOptionFeaturesFilter,
+} from '../../redux/actions/listProducts';
 import { orderTwoVerticalColumns } from '../../utils/arrays.js';
 
 const useStyles = makeStyles( theme => ({
@@ -55,6 +59,8 @@ const MultipleFeatureSelector = (props) => {
                             <FeatureOptionsGroup
                                 active_features_selected={ active_collection_features }
                                 collection_values={ orderTwoVerticalColumns(features_groups.heads) }
+                                action_uncheck_event={ deselectOptionFeaturesFilter }
+                                action_check_event={ choseOptionFeaturesFilter }
                                 title="Cabeza | Tipo de llave"
                                 />
                         </Grid>
@@ -63,6 +69,8 @@ const MultipleFeatureSelector = (props) => {
                             <FeatureOptionsGroup
                                 active_features_selected={ active_collection_features }
                                 collection_values={ orderTwoVerticalColumns(features_groups.others) }
+                                action_uncheck_event={ deselectOptionFeaturesFilter }
+                                action_check_event={ choseOptionFeaturesFilter }
                                 title="Categoria"
                                 />
                         </Grid>
@@ -71,6 +79,8 @@ const MultipleFeatureSelector = (props) => {
                             <FeatureOptionsGroup
                                 active_features_selected={ active_collection_features }
                                 collection_values={ orderTwoVerticalColumns(features_groups.materials) }
+                                action_uncheck_event={ deselectOptionFeaturesFilter }
+                                action_check_event={ choseOptionFeaturesFilter }
                                 title="Acabado de material"
                                 />
                         </Grid>
@@ -79,6 +89,8 @@ const MultipleFeatureSelector = (props) => {
                             <FeatureOptionsGroup
                                 active_features_selected={ active_collection_features }
                                 collection_values={ orderTwoVerticalColumns(features_groups.uses) }
+                                action_uncheck_event={ deselectOptionFeaturesFilter }
+                                action_check_event={ choseOptionFeaturesFilter }
                                 title="Usos"
                                 />
                         </Grid>

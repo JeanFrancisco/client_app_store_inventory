@@ -3,6 +3,8 @@ import {
     KIND_OF_PRODUCT_FILTER_OPTION_CHOSEN,
     FEATURE_FILTER_DIALOG_OPENED,
     FEATURE_FILTER_DIALOG_CLOSED,
+    FEATURE_FILTER_OPTION_CHOSEN,
+    FEATURE_FILTER_OPTION_DESELECTED,
 } from '../constants/listProducts';
 
 const initialState = {
@@ -34,6 +36,16 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 is_open_features_filter_dialog: false,
+            }
+        case FEATURE_FILTER_OPTION_CHOSEN:
+            return {
+                ...state,
+                active_collection_features: [...state.active_collection_features, action.payload ],
+            }
+        case FEATURE_FILTER_OPTION_DESELECTED:
+            return {
+                ...state,
+                active_collection_features: state.active_collection_features.filter(element => element !== action.payload),
             }
         default:
             return {
