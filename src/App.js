@@ -3,6 +3,7 @@ import { AppBar, Paper, Tabs, Tab } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { AttachMoney, Timeline, ListAlt, FlightLand, Settings } from '@material-ui/icons';
 import TabPanel from './components/misc/TabPanel';
+import RegisterSale from './views/RegisterSale';
 
 const useStyles = makeStyles( theme => ({
     appGlobalContainer: {
@@ -28,7 +29,7 @@ function App() {
     <div className="App">
       <Paper square className={ classes.appGlobalContainer } elevation={ 2 }>
         <TabPanel value={ selectedTab } index={ 0 }>
-
+          <RegisterSale />
         </TabPanel>
         <TabPanel value={ selectedTab } index={ 1 }>
 
