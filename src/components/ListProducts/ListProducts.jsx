@@ -11,7 +11,7 @@ import {
     Button,
 } from "@material-ui/core";
 import ArrowDropDown from '@material-ui/icons/ArrowDropDown';
-import MultipleFeatureSelector from '../MultipleFeatureSelector/MultipleFeatureSelector';
+import DialogFeaturesSelector from '../DialogFeaturesSelector/DialogFeaturesSelector';
 import MultiMeasurementsDialog from '../MultiMeasurementsDialog/MultiMeasurementsDialog';
 import KindProductsPopup from '../misc/KindProductsPopup';
 import ThreadsPopup from '../misc/ThreadsPopup';
@@ -131,7 +131,7 @@ const ListProducts = () => {
             </Table>
         </TableContainer>
 
-        <MultipleFeatureSelector />
+        <DialogFeaturesSelector />
         <MultiMeasurementsDialog
             is_open={ is_open_measurements_dialog }
             action_on_close={ closeMeasurementsFilterDialog }

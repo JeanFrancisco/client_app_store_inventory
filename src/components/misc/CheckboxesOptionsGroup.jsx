@@ -13,7 +13,7 @@ import {
 
 const CheckboxesOptionsGroup = (props) => {
 
-    const { active_selected_checkboxes, collection_values, title, helper_text, action_uncheck_event, action_check_event } = props;
+    const { active_selected_checkboxes, collection_values, title, helper_text, action_uncheck_event, action_check_event, onChange } = props;
 
     const dispatch = useDispatch();
 
@@ -36,19 +36,19 @@ const CheckboxesOptionsGroup = (props) => {
     }
 
     return (
-        <FormControl component="fieldset">
+        <FormControl component="fieldset" fullWidth={ true }>
             <FormLabel component="legend">{ title }</FormLabel>
 
             <FormGroup>
-                <Grid container>
+                <Grid container justify="space-between">
                 {
                     collection_values.map( value => (
-                        <Grid item xs={ 6 } key={ `grid_${value.toString().replace(' ', '')}` }>
+                        <Grid item xs={ 5 } key={ `grid_${value.toString().replace(' ', '')}` }>
                             <FormControlLabel
                                 key={ value }
                                 control={
                                     <Checkbox
-                                        onChange={ (typeof value === 'string') ? handlerChange : handlerChangeNumeric }
+                                        onChange={( typeof onChange === 'function' ? onChange : ((typeof value === 'string') ? handlerChange : handlerChangeNumeric) )}
                                         checked={ ( active_selected_checkboxes.indexOf(value) > -1 ) }
                                         name={ value.toString() }
                                         value={ value }
@@ -69,10 +69,11 @@ const CheckboxesOptionsGroup = (props) => {
 
 CheckboxesOptionsGroup.propTypes = {
     active_checkboxes_selected: PropTypes.array,
-    action_uncheck_event: PropTypes.func.isRequired,
-    action_check_event: PropTypes.func.isRequired,
+    action_uncheck_event: PropTypes.func,
+    action_check_event: PropTypes.func,
     collection_values: PropTypes.array.isRequired,
     helper_text: PropTypes.string,
+    onChange: PropTypes.func,
     title: PropTypes.string
 }
 

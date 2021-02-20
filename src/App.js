@@ -1,9 +1,17 @@
 import React, { useState } from 'react';
 import { AppBar, Paper, Tabs, Tab } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { AttachMoney, Timeline, ListAlt, FlightLand, Settings } from '@material-ui/icons';
+import {
+  LocalMall,
+  BubbleChart,
+  TrendingUp,
+  ListAlt,
+  FlightLand,
+  Settings
+} from '@material-ui/icons';
 import TabPanel from './components/misc/TabPanel';
 import RegisterSale from './views/RegisterSale';
+import ProductsInventory from './views/ProductsInventory';
 
 const useStyles = makeStyles( theme => ({
     appGlobalContainer: {
@@ -32,7 +40,7 @@ function App() {
           <RegisterSale />
         </TabPanel>
         <TabPanel value={ selectedTab } index={ 1 }>
-
+          <ProductsInventory />
         </TabPanel>
       </Paper>
       <AppBar position="fixed" color="default" className={ classes.appNavigationBar }>
@@ -43,8 +51,9 @@ function App() {
           indicatorColor="secondary"
           textColor="secondary"
         >
-          <Tab icon={ <AttachMoney/> } label="Vender"/>
-          <Tab icon={ <Timeline/> } label="Ventas"/>
+          <Tab icon={ <LocalMall/> } label="Vender"/>
+          <Tab icon={ <BubbleChart/> } label="Productos"/>
+          <Tab icon={ <TrendingUp/> } label="Ventas"/>
           <Tab icon={ <ListAlt/> } label="Nuevo Pedido"/>
           <Tab icon={ <FlightLand/> } label="Recibidos"/>
           <Tab icon={ <Settings/> } label="Configuracion"/>
