@@ -50,20 +50,20 @@ const MeasurementsPopup = ({ is_open, action_on_close }) => {
                     <Grid container spacing={ 3 }>
                         <Grid item xs={ 10 } sm={ 6 }>
                             <CheckboxesOptionsGroup
-                                active_selected_checkboxes={ active_selected_measurements }
-                                collection_values={ metric_measurements }
-                                action_uncheck_event={ deselectOptionMeasurementsFilter }
-                                action_check_event={ choseOptionMeasurementsFilter }
+                                activeSelectedCheckboxes={ active_selected_measurements }
+                                collectionValues={ metric_measurements }
+                                actionForUncheck={ deselectOptionMeasurementsFilter }
+                                actionForCheck={ choseOptionMeasurementsFilter }
                                 title="Milimetrico"
                                 />
                         </Grid>
 
                         <Grid item xs={ 10 } sm={ 6 }>
                             <CheckboxesOptionsGroup
-                                active_selected_checkboxes={ active_selected_measurements }
-                                collection_values={ english_measurements }
-                                action_uncheck_event={ deselectOptionMeasurementsFilter }
-                                action_check_event={ choseOptionMeasurementsFilter }
+                                activeSelectedCheckboxes={ active_selected_measurements }
+                                collectionValues={ english_measurements }
+                                actionForUncheck={ deselectOptionMeasurementsFilter }
+                                actionForCheck={ choseOptionMeasurementsFilter }
                                 title="Inglés"
                                 />
                         </Grid>

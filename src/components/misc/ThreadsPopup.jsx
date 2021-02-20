@@ -24,7 +24,7 @@ const ThreadsPopup = () => {
             value={ selected_threads }
             heading="Roscas"
             options={ [ ...threads.valid_english, ...threads.valid_metrics ] }
-            disabled_options={ disabled_options }
+            disabledOptions={ disabled_options }
             handlerChangeEvent={ handleStatusUpdateThreads }
             />
     )

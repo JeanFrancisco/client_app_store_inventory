@@ -11,15 +11,15 @@ const features_groups = {
 }
 
 const MultipleFeatureSelector = (props) => {
-    const { active_selected_checkboxes, onChange } = props;
-    const inheritedProperties = { active_selected_checkboxes, onChange };
+    const { actionForCheck, actionForUncheck, activeSelectedCheckboxes, onChange } = props;
+    const inheritedProperties = { actionForCheck, actionForUncheck, activeSelectedCheckboxes, onChange };
 
     return (
         <Grid container spacing={ 2 }>
             <Grid item xs={ 10 } sm={ 5 }>
                 <CheckboxesOptionsGroup
                     { ...inheritedProperties }
-                    collection_values={ orderTwoVerticalColumns(features_groups.heads) }
+                    collectionValues={ orderTwoVerticalColumns(features_groups.heads) }
                     title="Cabeza | Tipo de llave"
                     />
             </Grid>
@@ -27,7 +27,7 @@ const MultipleFeatureSelector = (props) => {
             <Grid item xs={ 10 } sm={ 5 }>
                 <CheckboxesOptionsGroup
                     { ...inheritedProperties }
-                    collection_values={ orderTwoVerticalColumns(features_groups.others) }
+                    collectionValues={ orderTwoVerticalColumns(features_groups.others) }
                     title="Categoria"
                     />
             </Grid>
@@ -35,7 +35,7 @@ const MultipleFeatureSelector = (props) => {
             <Grid item xs={ 10 } sm={ 5 }>
                 <CheckboxesOptionsGroup
                     { ...inheritedProperties }
-                    collection_values={ orderTwoVerticalColumns(features_groups.materials) }
+                    collectionValues={ orderTwoVerticalColumns(features_groups.materials) }
                     title="Acabado de material"
                     />
             </Grid>
@@ -43,7 +43,7 @@ const MultipleFeatureSelector = (props) => {
             <Grid item xs={ 10 } sm={ 5 }>
                 <CheckboxesOptionsGroup
                     { ...inheritedProperties }
-                    collection_values={ orderTwoVerticalColumns(features_groups.uses) }
+                    collectionValues={ orderTwoVerticalColumns(features_groups.uses) }
                     title="Usos"
                     />
             </Grid>

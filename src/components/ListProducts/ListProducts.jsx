@@ -133,8 +133,8 @@ const ListProducts = () => {
 
         <DialogFeaturesSelector />
         <MultiMeasurementsDialog
-            is_open={ is_open_measurements_dialog }
-            action_on_close={ closeMeasurementsFilterDialog }
+            isOpen={ is_open_measurements_dialog }
+            actionOnClose={ closeMeasurementsFilterDialog }
             />
     </Fragment>
     );

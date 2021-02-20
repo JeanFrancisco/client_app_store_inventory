@@ -46,9 +46,9 @@ const DialogFeaturesSelector = (props) => {
 
                 <DialogContent dividers className={ classes.root }>
                     <MultipleFeatureSelector
-                        action_check_event={ choseOptionFeaturesFilter }
-                        action_uncheck_event={ deselectOptionFeaturesFilter }
-                        active_selected_checkboxes={ active_collection_features } />
+                        actionForCheck={ choseOptionFeaturesFilter }
+                        actionForUncheck={ deselectOptionFeaturesFilter }
+                        activeSelectedCheckboxes={ active_collection_features } />
                 </DialogContent>
 
                 <DialogActions>

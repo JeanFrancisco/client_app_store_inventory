@@ -13,7 +13,15 @@ import {
 
 const CheckboxesOptionsGroup = (props) => {
 
-    const { active_selected_checkboxes, collection_values, title, helper_text, action_uncheck_event, action_check_event, onChange } = props;
+    const {
+        activeSelectedCheckboxes: active_selected_checkboxes,
+        collectionValues: collection_values,
+        title,
+        helperText: helper_text,
+        actionForUncheck: action_uncheck_event,
+        actionForCheck: action_check_event,
+        onChange: handlerChangeEvent
+    } = props;
 
     const dispatch = useDispatch();
 
@@ -48,7 +56,7 @@ const CheckboxesOptionsGroup = (props) => {
                                 key={ value }
                                 control={
                                     <Checkbox
-                                        onChange={( typeof onChange === 'function' ? onChange : ((typeof value === 'string') ? handlerChange : handlerChangeNumeric) )}
+                                        onChange={( typeof handlerChangeEvent === 'function' ? handlerChangeEvent : ((typeof value === 'string') ? handlerChange : handlerChangeNumeric) )}
                                         checked={ ( active_selected_checkboxes.indexOf(value) > -1 ) }
                                         name={ value.toString() }
                                         value={ value }
@@ -68,18 +76,18 @@ const CheckboxesOptionsGroup = (props) => {
 }
 
 CheckboxesOptionsGroup.propTypes = {
-    active_checkboxes_selected: PropTypes.array,
-    action_uncheck_event: PropTypes.func,
-    action_check_event: PropTypes.func,
-    collection_values: PropTypes.array.isRequired,
-    helper_text: PropTypes.string,
+    activeSelectedCheckboxes: PropTypes.array,
+    collectionValues: PropTypes.array.isRequired,
+    actionForUncheck: PropTypes.func,
+    actionForCheck: PropTypes.func,
+    helperText: PropTypes.string,
     onChange: PropTypes.func,
     title: PropTypes.string
 }
 
 CheckboxesOptionsGroup.defaultProps = {
-    active_checkboxes_selected: [],
-    helper_text: '',
+    activeSelectedCheckboxes: [],
+    helperText: '',
     title: '',
 }
 

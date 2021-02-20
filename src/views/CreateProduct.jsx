@@ -141,7 +141,7 @@ const CreateProduct = () => {
                 <Grid item md={ 8 }>
                     <MultipleFeatureSelector
                         onChange={ handleUpdateFeaturesCollection }
-                        active_selected_checkboxes={ features } />
+                        activeSelectedCheckboxes={ features } />
                 </Grid>
 
                 <Grid item xs={ 10 } container justify="flex-end">
