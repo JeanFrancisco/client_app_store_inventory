@@ -1,9 +1,20 @@
 import React, { useState, Fragment } from 'react';
-import { Box, Button, Grid, InputAdornment, Paper, TextField, Toolbar } from '@material-ui/core';
+import {
+    Box,
+    Button,
+    Grid,
+    Grow,
+    InputAdornment,
+    Paper,
+    Snackbar,
+    TextField,
+    Toolbar
+} from '@material-ui/core';
 import { ArrowBack, ArrowDropDown } from '@material-ui/icons';
-import { Autocomplete } from '@material-ui/lab';
+import { Alert, AlertTitle, Autocomplete } from '@material-ui/lab';
 import MeasurementDialog from '../components/MeasurementDialog/MeasurementDialog';
 import MultipleFeatureSelector from '../components/MultipleFeatureSelector/MultipleFeatureSelector';
+import { submitRequestToCreateProduct } from '../connections/products';
 
 // TODO: # Add to admin validation.
 const CreateProduct = () => {
@@ -12,6 +23,8 @@ const CreateProduct = () => {
     const [ features, updateFeatures ] = useState([]);
     const [ productproperties, setProductProperties ] = useState({});
     const [ is_open_measurement_dialog, setOpenMeasurementDialog ] = useState( false );
+    const [ snackbar_opts, setSnackbarOpts ] = useState({ open: false, severity: '', message: '' });
+    const [ field_with_error, setFieldWithError ] = useState('');
 
     const handleToggleLauncherMeasurement = () => {
         setOpenMeasurementDialog( !is_open_measurement_dialog );
@@ -20,13 +33,22 @@ const CreateProduct = () => {
     const handleChangeSelectionMeasurement = (newValue) => {
         setWidth(newValue);
         handleToggleLauncherMeasurement();
+
+        if(field_with_error === 'width' )
+            setFieldWithError('');
     }
 
-    const handleCategorySelected = (selectedCategory) => {
+    const handleCategorySelected = (e, selectedCategory) => {
+        if(field_with_error === e.target.name )
+            setFieldWithError('');
+
         setCategory(selectedCategory);
     }
 
     const handleUpdateFeaturesCollection = (e) => {
+        if(field_with_error === e.target.name )
+            setFieldWithError('');
+
         const value = e.target.value;
 
         if(e.target.checked)
@@ -38,13 +60,39 @@ const CreateProduct = () => {
     }
 
     const handlePropertyChanges = (e) => {
+        if(field_with_error === e.target.name )
+            setFieldWithError('');
+
         const new_property = { [e.target.name ]: e.target.value };
 
         setProductProperties({ ...productproperties, ...new_property })
     }
 
-    const handleConfirmationAction = () => {
-        /* TODO: sendRequestToCreateProduct({ kind: category, features, width, stock, price, location, length, is_high...., etc }); */
+    const handleConfirmationAction = async () => {
+        await submitRequestToCreateProduct({ type: category, features, width, ...productproperties })
+            .then( response => {
+                setSnackbarOpts({ open: true, severity: 'success', message: 'El Producto se guardó con éxito' });
+            })
+            .catch(error => {
+                if( error.response && error.response.status == 400 ) {
+                    let first_error = error.response.data.shift();
+                    let field_has_error = first_error.param === 'type' ? 'category' : first_error.param; 
+
+                    setSnackbarOpts({ open: true, severity: 'error', message: first_error.msg });
+
+                    setFieldWithError(field_has_error);
+
+                } else if( error.request )
+                    setSnackbarOpts({
+                        open: true,
+                        severity: 'error',
+                        message: 'Revise la conexíón de red. El servidor ha tenido un error, o ha tardado demasiado en responder.'
+                    });
+            });
+    }
+
+    const handleCloseSnackbar = (e) => {
+        setSnackbarOpts({ open: false, severity: '', message: '' });
     }
 
     return (
@@ -55,13 +103,32 @@ const CreateProduct = () => {
                 <Button startIcon={ <ArrowBack />} href="/">
                     Ir Atrás
                 </Button>
+
+                <Snackbar
+                    open={ snackbar_opts.open }
+                    onClose={ handleCloseSnackbar }
+                    autoHideDuration={ 8000 }
+                    TransitionComponent={ (props) => <Grow { ...props }/> }
+                    >
+                    <Alert severity={ snackbar_opts.severity } onClose={ handleCloseSnackbar }>
+                        {
+                            snackbar_opts.severity === 'error' ?
+                            <AlertTitle> <strong>Oops! Algo salió mal:</strong> </AlertTitle>
+                            : null
+                        }
+
+                        { snackbar_opts.message }
+                    </Alert>
+                </Snackbar>
             </Toolbar>
             <Grid container
                 spacing={ 1 }
                 justify="space-evenly">
 
                 <Grid item xs={ 12 } md={ 3 }>
-                    <Box m={ 4 } style={{ height: '248px', width: '248px', backgroundColor: 'lightgrey' }}>
+                    <Box m={ 4 } style={{
+                            height: '248px', width: '248px', backgroundColor: 'lightgrey'
+                        }}>
 
                     </Box>
                 </Grid>
@@ -69,15 +136,19 @@ const CreateProduct = () => {
                 <Grid item xs={ 12 } md={ 7 }>
                     <Autocomplete id="autocomplete-product-name"
                         freeSolo
+                        error={ field_with_error === 'type' }
                         value={ category }
                         onChange={ handleCategorySelected }
                         options={ [] }
+                        name='type'
                         getOptionLabel={ option => option }
                         renderInput={ params => (
                             <TextField { ...params } label="Categoría del producto"
                                 helperText="Ingresa o selecciona un tipo|categoría del producto, aquel(la) que mejor se adapte o describa satisfactoriamente al producto"
                                 variant="outlined"
-                                InputProps={{ endAdornment: <InputAdornment position="end"><ArrowDropDown/></InputAdornment> }}/>
+                                InputProps={{
+                                    endAdornment: <InputAdornment position="end"><ArrowDropDown/></InputAdornment>
+                                }}/>
                         )}
                         />
                 </Grid>
@@ -86,6 +157,7 @@ const CreateProduct = () => {
                     <Grid item xs={ 10 }>
                         <TextField
                             label="Existencia"
+                            error={ field_with_error === 'stock' }
                             onChange={ handlePropertyChanges }
                             value={ productproperties.stock }
                             name='stock'
@@ -95,6 +167,7 @@ const CreateProduct = () => {
                     <Grid item xs={ 10 }>
                         <TextField
                             label="Precio"
+                            error={ field_with_error === 'price' }
                             value={ productproperties.price }
                             onChange={ handlePropertyChanges }
                             name='price'
@@ -104,6 +177,7 @@ const CreateProduct = () => {
                     <Grid item xs={ 10 }>
                         <TextField
                             label="Ubicación"
+                            error={ field_with_error === 'location' }
                             value={ productproperties.location }
                             onChange={ handlePropertyChanges }
                             name='location'
@@ -114,6 +188,7 @@ const CreateProduct = () => {
                     <Grid item xs={ 10 }>
                         <TextField
                             label="Largo"
+                            error={ field_with_error === 'length' }
                             value={ productproperties.length }
                             onChange={ handlePropertyChanges }
                             name='length'
@@ -133,6 +208,7 @@ const CreateProduct = () => {
                             InputLabelProps={
                                 is_open_measurement_dialog ? { shrink: true } : { margin: 'dense' }
                             }
+                            error={ field_with_error === 'width' }
                             variant="standard"
                             value={ width }/>
                     </Grid>
