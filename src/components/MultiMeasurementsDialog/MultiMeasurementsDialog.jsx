@@ -24,7 +24,7 @@ const useStyles = makeStyles( theme => ({
     }
 }));
 
-const MeasurementsPopup = ({ is_open, action_on_close }) => {
+const MeasurementsPopup = ({ isOpen, actionOnClose }) => {
     const classes = useStyles();
 
     const dispatch = useDispatch();
@@ -33,7 +33,7 @@ const MeasurementsPopup = ({ is_open, action_on_close }) => {
     const active_selected_measurements = useSelector( state => state.listProducts.active_selected_measurements_filter );
 
     const handleCloseDialog = (e) => {
-        dispatch( action_on_close() );
+        dispatch( actionOnClose() );
     }
 
     return (
@@ -41,7 +41,7 @@ const MeasurementsPopup = ({ is_open, action_on_close }) => {
             fullWidth
             maxWidth="md"
             aria-labelledby=""
-            open={ is_open }
+            open={ isOpen }
             onClose={ handleCloseDialog }
             >
                 <DialogTitle>Seleccione las Medidas</DialogTitle>
