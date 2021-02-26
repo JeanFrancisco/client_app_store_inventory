@@ -36,7 +36,7 @@ const DialogFeaturesSelector = (props) => {
 
     return (
         <Dialog
-            fullWidth={ true }
+            fullWidth
             maxWidth="md"
             aria-labelledby=""
             open={ is_open }

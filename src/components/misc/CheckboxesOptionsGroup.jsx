@@ -44,7 +44,7 @@ const CheckboxesOptionsGroup = (props) => {
     }
 
     return (
-        <FormControl component="fieldset" fullWidth={ true }>
+        <FormControl component="fieldset" fullWidth>
             <FormLabel component="legend">{ title }</FormLabel>
 
             <FormGroup>

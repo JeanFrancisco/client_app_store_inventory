@@ -10,7 +10,7 @@ const ListSelector = (props) => {
             {
                 items.map( item => (
                     <ListItem button divider
-                        disableGutters={ true }
+                        disableGutters
                         aria-haspopup="true"
                         aria-label={ item.diplay }
                         onClick={ () => handleSelect(item.value) }

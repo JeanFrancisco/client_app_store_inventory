@@ -40,7 +40,7 @@ const MultiSelectChecks = (props) => {
                         }
                     }
                 }}
-                autoWidth={ true }
+                autoWidth
                 >
                 {
                     options.map( name => (

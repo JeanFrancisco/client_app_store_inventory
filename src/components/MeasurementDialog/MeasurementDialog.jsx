@@ -15,7 +15,7 @@ const MeasurementDialog = ({ value, onChangeValue, isOpen, onClose }) => {
         <Dialog
             onClose={ onClose }
             maxWidth="md"
-            fullWidth={ true }
+            fullWidth
             open={ isOpen }>
                 <DialogTitle>
                     Selecciona una medida

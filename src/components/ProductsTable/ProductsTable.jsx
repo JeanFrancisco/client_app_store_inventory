@@ -28,7 +28,7 @@ const ProductsTable = () => {
 
                     <TableCell key="b"
                         align="left" >
-                        <TableSortLabel active={ true }
+                        <TableSortLabel active
                             direction={ 'asc' } >
                             Nombre (Incluye características)</TableSortLabel>
                     </TableCell>
@@ -95,7 +95,8 @@ const ProductsTable = () => {
                 <TableRow key="2"
                     hover
                     role="checkbox"
-                    selected={ true } >
+                    selected
+                    >
 
                     <TableCell key="7"
                         align="left" >
@@ -119,7 +120,7 @@ const ProductsTable = () => {
 
                     <TableCell key="12"
                         padding="checkbox" >
-                        <Checkbox checked={ true } />
+                        <Checkbox checked />
 
                         <IconButton aria-label="delete" color="secondary">
                             <DeleteIcon />

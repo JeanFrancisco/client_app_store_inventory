@@ -38,7 +38,7 @@ const MeasurementsPopup = ({ is_open, action_on_close }) => {
 
     return (
         <Dialog
-            fullWidth={ true }
+            fullWidth
             maxWidth="md"
             aria-labelledby=""
             open={ is_open }
