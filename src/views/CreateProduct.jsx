@@ -18,6 +18,7 @@ import { submitRequestToCreateProduct } from '../connections/products';
 
 // TODO: # Add to admin validation.
 const CreateProduct = () => {
+
     const [ width, setWidth ] = useState('');
     const [ category, setCategory ] = useState('');
     const [ features, updateFeatures ] = useState([]);
@@ -26,28 +27,31 @@ const CreateProduct = () => {
     const [ snackbar_opts, setSnackbarOpts ] = useState({ open: false, severity: '', message: '' });
     const [ field_with_error, setFieldWithError ] = useState('');
 
+    function clearFieldErrorIfEqualTo(recently_name)
+    {
+        if(field_with_error === recently_name)
+            setFieldWithError('');
+    }
+
     const handleToggleLauncherMeasurement = () => {
         setOpenMeasurementDialog( !is_open_measurement_dialog );
     }
 
     const handleChangeSelectionMeasurement = (newValue) => {
+        clearFieldErrorIfEqualTo('width');
+
         setWidth(newValue);
         handleToggleLauncherMeasurement();
-
-        if(field_with_error === 'width' )
-            setFieldWithError('');
     }
 
-    const handleCategorySelected = (e, selectedCategory) => {
-        if(field_with_error === e.target.name )
-            setFieldWithError('');
+    const handleCategorySelected = (selectedCategory) => {
+        clearFieldErrorIfEqualTo('category');
 
         setCategory(selectedCategory);
     }
 
     const handleUpdateFeaturesCollection = (e) => {
-        if(field_with_error === e.target.name )
-            setFieldWithError('');
+        clearFieldErrorIfEqualTo(e.target.name);
 
         const value = e.target.value;
 
@@ -60,21 +64,25 @@ const CreateProduct = () => {
     }
 
     const handlePropertyChanges = (e) => {
-        if(field_with_error === e.target.name )
-            setFieldWithError('');
+        let property_name = e.target.name;
 
-        const new_property = { [e.target.name ]: e.target.value };
+        clearFieldErrorIfEqualTo(property_name);
 
+        const new_property = { [property_name]: e.target.value };
         setProductProperties({ ...productproperties, ...new_property })
     }
 
     const handleConfirmationAction = async () => {
-        await submitRequestToCreateProduct({ type: category, features, width, ...productproperties })
+        await
+            submitRequestToCreateProduct({ category, features, width, ...productproperties })
             .then( response => {
+
                 setSnackbarOpts({ open: true, severity: 'success', message: 'El Producto se guardó con éxito' });
+
             })
             .catch(error => {
                 if( error.response && error.response.status == 400 ) {
+
                     let first_error = error.response.data.shift();
                     let field_has_error = first_error.param === 'type' ? 'category' : first_error.param; 
 
@@ -83,6 +91,7 @@ const CreateProduct = () => {
                     setFieldWithError(field_has_error);
 
                 } else if( error.request )
+
                     setSnackbarOpts({
                         open: true,
                         severity: 'error',
@@ -110,17 +119,22 @@ const CreateProduct = () => {
                     autoHideDuration={ 8000 }
                     TransitionComponent={ (props) => <Grow { ...props }/> }
                     >
+
                     <Alert severity={ snackbar_opts.severity } onClose={ handleCloseSnackbar }>
-                        {
-                            snackbar_opts.severity === 'error' ?
-                            <AlertTitle> <strong>Oops! Algo salió mal:</strong> </AlertTitle>
+
+                        { snackbar_opts.severity === 'error' ?
+                            <AlertTitle>
+                                <strong>Oops! Algo salió mal.</strong>
+                            </AlertTitle>
                             : null
                         }
 
                         { snackbar_opts.message }
                     </Alert>
+
                 </Snackbar>
             </Toolbar>
+
             <Grid container
                 spacing={ 1 }
                 justify="space-evenly">
@@ -143,8 +157,10 @@ const CreateProduct = () => {
                         name='type'
                         getOptionLabel={ option => option }
                         renderInput={ params => (
-                            <TextField { ...params } label="Categoría del producto"
-                                helperText="Ingresa o selecciona un tipo|categoría del producto, aquel(la) que mejor se adapte o describa satisfactoriamente al producto"
+                            <TextField { ...params }
+                                label="Categoría del producto"
+                                helperText={`Ingresa o selecciona un tipo|categoría del producto, aquel(la) que mejor se adapte
+                                            o describa satisfactoriamente al producto`}
                                 variant="outlined"
                                 InputProps={{
                                     endAdornment: <InputAdornment position="end"><ArrowDropDown/></InputAdornment>
@@ -153,7 +169,12 @@ const CreateProduct = () => {
                         />
                 </Grid>
 
-                <Grid item md={ 3 } container justify="center" spacing={ 2 }>
+                <Grid item md={ 3 }
+                    container
+                    justify="center"
+                    spacing={ 2 }
+                    >
+
                     <Grid item xs={ 10 }>
                         <TextField
                             label="Existencia"
@@ -212,12 +233,16 @@ const CreateProduct = () => {
                             variant="standard"
                             value={ width }/>
                     </Grid>
+
                 </Grid>
 
                 <Grid item md={ 8 }>
+
                     <MultipleFeatureSelector
                         onChange={ handleUpdateFeaturesCollection }
-                        activeSelectedCheckboxes={ features } />
+                        activeSelectedCheckboxes={ features }
+                        />
+
                 </Grid>
 
                 <Grid item xs={ 10 } container justify="flex-end">
@@ -229,6 +254,7 @@ const CreateProduct = () => {
                         Aceptar
                     </Button>
                 </Grid>
+
             </Grid>
         </Paper>
 
