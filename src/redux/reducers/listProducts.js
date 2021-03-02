@@ -9,9 +9,14 @@ import {
     MEASUREMENT_FILTER_DIALOG_CLOSED,
     MEASUREMENT_FILTER_OPTION_CHOSEN,
     MEASUREMENT_FILTER_OPTION_DESELECTED,
+    SUCCESS_LOADING_PRODUCTS,
+    FAILED_LOADING_PRODUCTS,
+    LOADING_PRODUCT_RECORDS,
 } from '../constants/listProducts';
 
 const initialState = {
+    error: null,
+    loading: false,
     selected_values_thread_filter: ['NC', 'MMF', '1.0'],
     disabled_options_thread_filter: ['1.0', '1.5'],
     selected_values_kind_products_filter: ['Abrazadera', 'Tornillo'],
@@ -93,6 +98,21 @@ export default function (state = initialState, action) {
                 ...state,
                 active_selected_measurements_filter: state.active_selected_measurements_filter.filter(element => element !== action.payload),
                 filtered_products: refreshProductsToShow(state.all_products, action.type, action.payload),
+            }
+        case LOADING_PRODUCT_RECORDS:
+            return {
+                ...state,
+                loading: action.payload,
+            }
+        case SUCCESS_LOADING_PRODUCTS:
+            return {
+                ...state,
+                all_products: action.payload,
+            }
+        case FAILED_LOADING_PRODUCTS:
+            return {
+                ...state,
+                error: action.payload,
             }
         default:
             return {
