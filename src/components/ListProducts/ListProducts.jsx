@@ -146,12 +146,16 @@ const ListProducts = () => {
                                             color="secondary" onBlur={ handleStatusUpdateQntyField } />
                                     </TableCell>
 
-                                    <TableCell align="center" width="100">{ product.name }</TableCell>
-                                    <TableCell>{ product.features.join(' ') }</TableCell>
-                                    <TableCell>{ product.thread }</TableCell>
-                                    <TableCell>{ product.width }</TableCell>
-                                    <TableCell>{ product.large }</TableCell>
-                                    <TableCell padding="none">{ product.location }</TableCell>
+                                    <TableCell align="center" width="100">{ product.type }</TableCell>
+                                    <TableCell>{ product.description }</TableCell>
+                                    <TableCell>{ product.thread?.kind }</TableCell>
+                                    <TableCell>{ product.measurement }</TableCell>
+                                    <TableCell>{ product.length }</TableCell>
+                                    {
+                                        product.locations?.map(location => (
+                                            <TableCell padding="none">{ location.shelf } _ { location.label }</TableCell>
+                                        ))
+                                    }
                                     <TableCell></TableCell>
                                     <TableCell align="right">{ product.price }</TableCell>
                                 </TableRow>
