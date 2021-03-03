@@ -19,7 +19,7 @@ import { submitRequestToCreateProduct } from '../connections/products';
 // TODO: # Add to admin validation.
 const CreateProduct = () => {
 
-    const [ width, setWidth ] = useState('');
+    const [ measurement, setMeasurement ] = useState('');
     const [ category, setCategory ] = useState('');
     const [ features, updateFeatures ] = useState([]);
     const [ productproperties, setProductProperties ] = useState({});
@@ -38,9 +38,9 @@ const CreateProduct = () => {
     }
 
     const handleChangeSelectionMeasurement = (newValue) => {
-        clearFieldErrorIfEqualTo('width');
+        clearFieldErrorIfEqualTo('measurement');
 
-        setWidth(newValue);
+        setMeasurement(newValue);
         handleToggleLauncherMeasurement();
     }
 
@@ -74,7 +74,7 @@ const CreateProduct = () => {
 
     const handleConfirmationAction = async () => {
         await
-            submitRequestToCreateProduct({ category, features, width, ...productproperties })
+            submitRequestToCreateProduct({ category, features, measurement, ...productproperties })
             .then( response => {
 
                 setSnackbarOpts({ open: true, severity: 'success', message: 'El Producto se guardó con éxito' });
@@ -229,9 +229,9 @@ const CreateProduct = () => {
                             InputLabelProps={
                                 is_open_measurement_dialog ? { shrink: true } : { margin: 'dense' }
                             }
-                            error={ field_with_error === 'width' }
+                            error={ field_with_error === 'measurement' }
                             variant="standard"
-                            value={ width }/>
+                            value={ measurement }/>
                     </Grid>
 
                 </Grid>
@@ -262,7 +262,7 @@ const CreateProduct = () => {
             isOpen={ is_open_measurement_dialog }
             onClose={ handleToggleLauncherMeasurement }
             onChangeValue={ handleChangeSelectionMeasurement }
-            value={ width }
+            value={ measurement }
             />
     </Fragment>
     );
