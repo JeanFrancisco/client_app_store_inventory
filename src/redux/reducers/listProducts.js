@@ -9,30 +9,25 @@ import {
     MEASUREMENT_FILTER_DIALOG_CLOSED,
     MEASUREMENT_FILTER_OPTION_CHOSEN,
     MEASUREMENT_FILTER_OPTION_DESELECTED,
+    SUCCESS_LOADING_PRODUCTS,
+    FAILED_LOADING_PRODUCTS,
+    LOADING_PRODUCT_RECORDS,
 } from '../constants/listProducts';
 
 const initialState = {
-    selected_values_thread_filter: ['NC', 'MMF', '1.0'],
+    error: null,
+    loading: false,
+    selected_values_thread_filter: [],
     disabled_options_thread_filter: ['1.0', '1.5'],
-    selected_values_kind_products_filter: ['Abrazadera', 'Tornillo'],
+    selected_values_kind_products_filter: [],
     is_open_features_filter_dialog: false,
-    active_collection_features: ['Allen', 'Grado 5'],
+    active_collection_features: [],
     is_open_measurement_dialog: false,
     disabled_options_measurements_filter: ['1/8', '1/4'],
-    active_selected_measurements_filter: ['3/8', '7/16', 4],
+    active_selected_measurements_filter: [],
     all_products: [
-        { id: 1, name: 'Tornillo', thread:'NC', width: '3/8', large: '2 + 1/2', price: 25.89, quantity: 4, stock: 25, features: ['Allen', 'Galvanizado'], location: '2ER' },
-        { id: 2, name: 'Tornillo', thread: 'MM', width: '8', large: '45', price: 25.89, quantity: 5, stock: 44, features: ['Hexagonal'], location: '34B' },
-        { id: 3, name: 'Tuerca', thread: 'NF', width: '3/8', large: '', price: 5.89, quantity: 3, stock: 55, features: ['Grado 5', 'Ins. Nylon'], location: '18AE' },
-        { id: 4, name: 'Abrazadera', thread: 'NF', width: '3/4', large: '23 in', price: 123.00, quantity: 1, stock: 80, features: ['Cuadrada', 'Carroceria'], location: '35E' },
-        { id: 5, name: 'Tornillo', thread:'NC', width: '3/8', large: '2 + 1/2', price: 25.89, quantity: 4, stock: 25, features: ['Allen', 'Galvanizado'], location: '2ER' },
-        { id: 6, name: 'Tornillo', thread: 'MM', width: '8', large: '45', price: 25.89, quantity: 5, stock: 44, features: ['Hexagonal'], location: '34B' },
-        { id: 7, name: 'Tuerca', thread: 'NF', width: '3/8', large: '', price: 5.89, quantity: 3, stock: 55, features: ['Grado 5', 'Ins. Nylon'], location: '18AE' },
-        { id: 8, name: 'Abrazadera', thread: 'NF', width: '3/4', large: '23 in', price: 123.00, quantity: 1, stock: 80, features: ['Cuadrada', 'Carroceria'], location: '35E' },
     ],
     filtered_products: [
-        { id: 2, name: 'Tornillo', thread:'NC', width: '3/8', large: '2 + 1/2', price: 25.89, quantity: 4, stock: 25, features: ['Allen', 'Galvanizado'], location: '2ER' },
-        { id: 5, name: 'Tornillo', thread: 'MM', width: '8', large: '45', price: 25.89, quantity: 5, stock: 44, features: ['Hexagonal'], location: '34B' },
     ]
 }
 
@@ -94,6 +89,22 @@ export default function (state = initialState, action) {
                 active_selected_measurements_filter: state.active_selected_measurements_filter.filter(element => element !== action.payload),
                 filtered_products: refreshProductsToShow(state.all_products, action.type, action.payload),
             }
+        case LOADING_PRODUCT_RECORDS:
+            return {
+                ...state,
+                loading: action.payload,
+            }
+        case SUCCESS_LOADING_PRODUCTS:
+            return {
+                ...state,
+                all_products: action.payload,
+                filtered_products: action.payload
+            }
+        case FAILED_LOADING_PRODUCTS:
+            return {
+                ...state,
+                error: action.payload,
+            }
         default:
             return {
                 ...state
@@ -105,10 +116,10 @@ function refreshProductsToShow(current_all, filter_case_condition, action_payloa
     switch(filter_case_condition) {
 
         case THREAD_FILTER_OPTION_CHOSEN:
-            return current_all.filter( product => action_payload.includes(product.thread) );
+            return current_all.filter( product => action_payload.includes(product.thread?.kind) );
 
         case KIND_OF_PRODUCT_FILTER_OPTION_CHOSEN:
-            return current_all.filter( product => action_payload.includes(product.name) );
+            return current_all.filter( product => action_payload.includes(product.type) );
 
         case FEATURE_FILTER_OPTION_CHOSEN:
             return current_all.filter( product => product.features.includes(action_payload) );
@@ -123,9 +134,9 @@ function refreshProductsToShow(current_all, filter_case_condition, action_payloa
             } );
 
         case MEASUREMENT_FILTER_OPTION_CHOSEN:
-            return current_all.filter( product => action_payload.includes(product.width) );
+            return current_all.filter( product => action_payload.includes(product.measurement) );
 
         case MEASUREMENT_FILTER_OPTION_DESELECTED:
-            return current_all.filter( product => product.width !== action_payload );
+            return current_all.filter( product => product.measurement !== action_payload );
     }
 }

@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
     Table,
@@ -13,6 +13,7 @@ import {
 import ArrowDropDown from '@material-ui/icons/ArrowDropDown';
 import DialogFeaturesSelector from '../DialogFeaturesSelector/DialogFeaturesSelector';
 import MultiMeasurementsDialog from '../MultiMeasurementsDialog/MultiMeasurementsDialog';
+import FloatingMessageBox from '../misc/FloatingMessageBox';
 import KindProductsPopup from '../misc/KindProductsPopup';
 import ThreadsPopup from '../misc/ThreadsPopup';
 import {
@@ -25,13 +26,43 @@ import {
     openFeaturesFilterDialog,
     openMeasurementsFilterDialog,
     closeMeasurementsFilterDialog,
+    successLoadingProducts,
+    failedLoadingProducts,
+    loadingProductRecords,
 } from '../../redux/actions/listProducts';
+import { sendInquiryToGetProducts } from '../../connections/products';
 
 const ListProducts = () => {
     const is_open_measurements_dialog = useSelector( state => state.listProducts.is_open_measurement_dialog );
+    const error_message = useSelector( state => state.listProducts.error );
     const rows = useSelector( state => state.listProducts.filtered_products );
 
     const dispatch = useDispatch();
+
+    useEffect(() => {
+
+        const getProductsRecords = async () => {
+
+            dispatch( loadingProductRecords(true) );
+
+            try {
+                const { products } = ( await sendInquiryToGetProducts() ).data;
+                dispatch( successLoadingProducts(products) );
+
+            } catch (error) {
+
+                if(error.response)
+                    dispatch( failedLoadingProducts(error.response.data.msg) );
+                else
+                    dispatch( failedLoadingProducts('Hubo un error durante la solicitud. Revise su conexión e intente nuevamente') );
+
+            } finally {
+                dispatch( loadingProductRecords(false) );
+            }
+        }
+
+        getProductsRecords();
+    }, []);
 
     const handleStatusUpdateQntyField = (e) => {
         let quanty = e.target.value;
@@ -115,12 +146,16 @@ const ListProducts = () => {
                                             color="secondary" onBlur={ handleStatusUpdateQntyField } />
                                     </TableCell>
 
-                                    <TableCell align="center" width="100">{ product.name }</TableCell>
-                                    <TableCell>{ product.features.join(' ') }</TableCell>
-                                    <TableCell>{ product.thread }</TableCell>
-                                    <TableCell>{ product.width }</TableCell>
-                                    <TableCell>{ product.large }</TableCell>
-                                    <TableCell padding="none">{ product.location }</TableCell>
+                                    <TableCell align="center" width="100">{ product.type }</TableCell>
+                                    <TableCell>{ product.description }</TableCell>
+                                    <TableCell>{ product.thread?.kind }</TableCell>
+                                    <TableCell>{ product.measurement }</TableCell>
+                                    <TableCell>{ product.length }</TableCell>
+                                    {
+                                        product.locations?.map(location => (
+                                            <TableCell padding="none">{ location.shelf } _ { location.label }</TableCell>
+                                        ))
+                                    }
                                     <TableCell></TableCell>
                                     <TableCell align="right">{ product.price }</TableCell>
                                 </TableRow>
@@ -136,6 +171,8 @@ const ListProducts = () => {
             isOpen={ is_open_measurements_dialog }
             actionOnClose={ closeMeasurementsFilterDialog }
             />
+
+        { error_message && <FloatingMessageBox open={ true } severity='error' message={ error_message } onClose={ () => dispatch( failedLoadingProducts('') )}/> }
     </Fragment>
     );
 };

@@ -11,16 +11,19 @@ import {
     Toolbar
 } from '@material-ui/core';
 import { ArrowBack, ArrowDropDown } from '@material-ui/icons';
-import { Alert, AlertTitle, Autocomplete } from '@material-ui/lab';
+import { Alert, AlertTitle, Autocomplete, createFilterOptions } from '@material-ui/lab';
+import ProductOptions from '../constants/types';
 import MeasurementDialog from '../components/MeasurementDialog/MeasurementDialog';
 import MultipleFeatureSelector from '../components/MultipleFeatureSelector/MultipleFeatureSelector';
 import { submitRequestToCreateProduct } from '../connections/products';
 
+const filter = createFilterOptions();
+
 // TODO: # Add to admin validation.
 const CreateProduct = () => {
 
-    const [ width, setWidth ] = useState('');
-    const [ category, setCategory ] = useState('');
+    const [ measurement, setMeasurement ] = useState('');
+    const [ category, setCategory ] = useState(null);
     const [ features, updateFeatures ] = useState([]);
     const [ productproperties, setProductProperties ] = useState({});
     const [ is_open_measurement_dialog, setOpenMeasurementDialog ] = useState( false );
@@ -38,13 +41,13 @@ const CreateProduct = () => {
     }
 
     const handleChangeSelectionMeasurement = (newValue) => {
-        clearFieldErrorIfEqualTo('width');
+        clearFieldErrorIfEqualTo('measurement');
 
-        setWidth(newValue);
+        setMeasurement(newValue);
         handleToggleLauncherMeasurement();
     }
 
-    const handleCategorySelected = (selectedCategory) => {
+    const handleCategorySelected = (event, selectedCategory) => {
         clearFieldErrorIfEqualTo('category');
 
         setCategory(selectedCategory);
@@ -74,7 +77,7 @@ const CreateProduct = () => {
 
     const handleConfirmationAction = async () => {
         await
-            submitRequestToCreateProduct({ category, features, width, ...productproperties })
+            submitRequestToCreateProduct({ category, features, measurement, ...productproperties })
             .then( response => {
 
                 setSnackbarOpts({ open: true, severity: 'success', message: 'El Producto se guardó con éxito' });
@@ -150,21 +153,28 @@ const CreateProduct = () => {
                 <Grid item xs={ 12 } md={ 7 }>
                     <Autocomplete id="autocomplete-product-name"
                         freeSolo
-                        error={ field_with_error === 'type' }
+                        clearOnBlur
+                        forcePopupIcon
                         value={ category }
                         onChange={ handleCategorySelected }
-                        options={ [] }
                         name='type'
-                        getOptionLabel={ option => option }
+                        options={ ProductOptions }
+                        filterOptions={ (options, params) => {
+                            const filtered = filter(options, params);
+
+                            if(params.inputValue !== '')
+                                filtered.push( `Añadir ${ params.inputValue.toUpperCase() }` );
+
+                            return filtered;
+                        }}
                         renderInput={ params => (
                             <TextField { ...params }
+                                error={ field_with_error === 'type' }
                                 label="Categoría del producto"
                                 helperText={`Ingresa o selecciona un tipo|categoría del producto, aquel(la) que mejor se adapte
                                             o describa satisfactoriamente al producto`}
                                 variant="outlined"
-                                InputProps={{
-                                    endAdornment: <InputAdornment position="end"><ArrowDropDown/></InputAdornment>
-                                }}/>
+                                />
                         )}
                         />
                 </Grid>
@@ -229,9 +239,9 @@ const CreateProduct = () => {
                             InputLabelProps={
                                 is_open_measurement_dialog ? { shrink: true } : { margin: 'dense' }
                             }
-                            error={ field_with_error === 'width' }
+                            error={ field_with_error === 'measurement' }
                             variant="standard"
-                            value={ width }/>
+                            value={ measurement }/>
                     </Grid>
 
                 </Grid>
@@ -262,7 +272,7 @@ const CreateProduct = () => {
             isOpen={ is_open_measurement_dialog }
             onClose={ handleToggleLauncherMeasurement }
             onChangeValue={ handleChangeSelectionMeasurement }
-            value={ width }
+            value={ measurement }
             />
     </Fragment>
     );

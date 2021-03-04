@@ -9,6 +9,9 @@ import {
     MEASUREMENT_FILTER_DIALOG_CLOSED,
     MEASUREMENT_FILTER_OPTION_CHOSEN,
     MEASUREMENT_FILTER_OPTION_DESELECTED,
+    SUCCESS_LOADING_PRODUCTS,
+    FAILED_LOADING_PRODUCTS,
+    LOADING_PRODUCT_RECORDS,
 } from '../constants/listProducts';
 
 export function updateThreadFilterState( option_chosen ) {
@@ -49,4 +52,16 @@ export function choseOptionMeasurementsFilter(option_chosen) {
 
 export function deselectOptionMeasurementsFilter(option_deselected) {
     return { type: MEASUREMENT_FILTER_OPTION_DESELECTED, payload: option_deselected }
+}
+
+export function loadingProductRecords(is_loading) {
+    return { type: LOADING_PRODUCT_RECORDS, payload: is_loading }
+}
+
+export function successLoadingProducts(products) {
+    return { type: SUCCESS_LOADING_PRODUCTS, payload: products }
+}
+
+export function failedLoadingProducts(error) {
+    return { type: FAILED_LOADING_PRODUCTS, payload: error }
 }
